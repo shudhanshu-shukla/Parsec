@@ -1,1 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Parsec — AI Video Editing</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --text: #1c1c1a;
+      --muted: #77746c;
+      --gold: #b79a64;
+      --dark: #242521;
+      --border: #ded8ca;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 7%;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .nav-btn {
+      background: var(--dark);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 30px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 110px 7% 70px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(48px, 8vw, 100px);
+      line-height: 1.05;
+      font-weight: 600;
+      margin: 25px auto;
+      max-width: 900px;
+    }
+
+    h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero p {
+      max-width: 530px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--dark);
+      color: white;
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .preview {
+      margin: 45px auto 0;
+      max-width: 1000px;
+      min-height: 380px;
+      border-radius: 18px;
+      background: #292b27;
+      padding: 18px;
+      box-shadow: 0 25px 70px #26251d20;
+    }
+
+    .window-bar {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 20px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #777;
+    }
+
+    .preview-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .video-box,
+    .ai-box {
+      min-height: 280px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-box {
+      background: linear-gradient(135deg, #555b4d, #242923);
+      color: #eee;
+      font-size: 22px;
+    }
+
+    .ai-box {
+      background: #e8e0d1;
+      color: #292b27;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .ai-box h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    section {
+      padding: 90px 7%;
+    }
+
+    .section-heading {
+      max-width: 600px;
+      margin-bottom: 45px;
+    }
+
+    .section-heading h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(35px, 5vw, 60px);
+      line-height: 1.1;
+      margin-top: 15px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin-top: 18px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 35px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .feature-number {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .feature-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 26px;
+      margin: 25px 0 12px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cta {
+      text-align: center;
+      background: var(--dark);
+      color: white;
+      margin: 30px 7%;
+      border-radius: 20px;
+      padding: 85px 25px;
+    }
+
+    .cta h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(35px, 6vw, 65px);
+      line-height: 1.1;
+      margin: 18px auto;
+      max-width: 700px;
+    }
+
+    .cta p {
+      color: #b9b9b0;
+      max-width: 480px;
+      margin: auto;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 35px 7%;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 750px) {
+      nav ul {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 75px;
+      }
+
+      .preview-content {
+        grid-template-columns: 1fr;
+      }
+
+      .video-box,
+      .ai-box {
+        min-height: 190px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">PAR<span>SEC</span></div>
+
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#workflow">How It Works</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+
+    <a href="#start" class="nav-btn">Get Started</a>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <div class="eyebrow">The Future of Video Editing</div>
+
+      <h1>
+        Your Vision.<br>
+        Edited by <em>AI.</em>
+      </h1>
+
+      <p>
+        Create cinematic videos, transform your ideas,
+        and bring your creative vision to life with Parsec.
+      </p>
+
+      <div class="actions">
+        <a href="#start" class="btn btn-primary">Start Creating ↗</a>
+        <a href="#features" class="btn btn-outline">Explore Features</a>
+      </div>
+
+      <div class="preview">
+        <div class="window-bar">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+
+        <div class="preview-content">
+          <div class="video-box">
+            ▶ &nbsp; Video Preview
+          </div>
+
+          <div class="ai-box">
+            <div>
+              <div class="eyebrow">Parsec AI</div>
+              <h3>Make Every Frame Matter.</h3>
+              <p>Intelligent editing. Unlimited creativity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-heading">
+        <div class="eyebrow">Powerful Tools</div>
+        <h2>Everything you need to create.</h2>
+        <p>
+          From intelligent editing to precise manual controls,
+          Parsec brings your entire creative workflow together.
+        </p>
+      </div>
+
+      <div class="features">
+
+        <div class="feature-card">
+          <div class="feature-number">01 / AI CREATION</div>
+          <h3>Create with Intelligence.</h3>
+          <p>
+            Turn your ideas and prompts into engaging
+            video concepts with AI-powered tools.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-number">02 / AI EDITING</div>
+          <h3>Let AI Refine Your Story.</h3>
+          <p>
+            Improve pacing, transitions, captions,
+            and visual style with intelligent assistance.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-number">03 / MANUAL CONTROL</div>
+          <h3>Your Timeline. Your Rules.</h3>
+          <p>
+            Trim, split, adjust, and customize your
+            videos with flexible editing tools.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="section-heading">
+        <div class="eyebrow">Simple Workflow</div>
+        <h2>From idea to finished video.</h2>
+        <p>
+          Upload your content, describe your vision,
+          and refine your creation with Parsec.
+        </p>
+      </div>
+
+      <div class="features">
+
+        <div class="feature-card">
+          <div class="feature-number">STEP 01</div>
+          <h3>Upload</h3>
+          <p>Bring your photos and videos into your project.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-number">STEP 02</div>
+          <h3>Describe</h3>
+          <p>Tell Parsec how you want your video to look.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-number">STEP 03</div>
+          <h3>Export</h3>
+          <p>Review your creation and prepare your final video.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="cta" id="start">
+      <div class="eyebrow">Start Your Journey</div>
+
+      <h2>
+        Create something<br>
+        extraordinary.
+      </h2>
+
+      <p>
+        Your next story starts here.
+        Build it with Parsec.
+      </p>
+
+      <div class="actions">
+        <a href="#" class="btn btn-primary">Get Started Free ↗</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="about">
+    <div>© 2026 PARSEC</div>
+    <div>AI Video Editing Platform</div>
+  </footer>
+
+</body>
+</html>

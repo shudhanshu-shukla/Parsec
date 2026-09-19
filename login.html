@@ -27,9 +27,26 @@
       box-shadow: 0 10px 40px #00000015;
     }
 
-    h1 {
-      font-size: 36px;
+    .brand {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
       margin-bottom: 10px;
+    }
+
+    .brand img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #050509;
+    }
+
+    h1 {
+      font-size: 32px;
+      letter-spacing: 3px;
+      margin: 0;
     }
 
     p {
@@ -54,6 +71,11 @@
       border: none;
       border-radius: 25px;
       cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #3b3c35;
     }
 
     a {
@@ -66,17 +88,26 @@
 </head>
 
 <body>
+
   <div class="login-box">
-    <h1>PARSEC</h1>
+
+    <div class="brand">
+      <img src="parsec-logo.png" alt="Parsec Logo">
+      <h1>PARSEC</h1>
+    </div>
+
     <p>Welcome back, creator.</p>
 
     <form>
       <input type="email" placeholder="Email address" required>
       <input type="password" placeholder="Password" required>
+
       <button type="submit">Continue →</button>
     </form>
 
     <a href="index.html">← Back to Home</a>
+
   </div>
+
 </body>
 </html>

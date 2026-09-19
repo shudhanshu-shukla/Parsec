@@ -74,15 +74,28 @@
       font-size: 15px;
     }
 
-    button:hover {
-      background: #3b3c35;
-    }
-
-    a {
+    .forgot {
       display: block;
-      margin-top: 20px;
+      margin-top: 15px;
       color: #9c8050;
       text-decoration: none;
+      font-size: 14px;
+    }
+
+    .signup {
+      margin-top: 25px;
+      font-size: 14px;
+    }
+
+    .signup a,
+    .back-home {
+      color: #9c8050;
+      text-decoration: none;
+    }
+
+    .back-home {
+      display: block;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -100,12 +113,25 @@
 
     <form>
       <input type="email" placeholder="Email address" required>
+
       <input type="password" placeholder="Password" required>
 
       <button type="submit">Continue →</button>
     </form>
 
-    <a href="index.html">← Back to Home</a>
+    <a href="#" class="forgot"
+       onclick="alert('Password recovery will be available soon!'); return false;">
+      Forgot Password?
+    </a>
+
+    <div class="signup">
+      Don't have an account?
+      <a href="signup.html">Create Account</a>
+    </div>
+
+    <a href="index.html" class="back-home">
+      ← Back to Home
+    </a>
 
   </div>
 

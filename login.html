@@ -373,3 +373,458 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Login | Parsec</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #08090d;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1250px;
+      min-height: 700px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #0c0d10;
+      border: 1px solid #292b38;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 80px #00000080;
+    }
+
+    /* LEFT SIDE */
+
+    .left-panel {
+      position: relative;
+      padding: 55px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 80% 35%, #39208080, transparent 40%),
+        radial-gradient(circle at 25% 85%, #142b5680, transparent 45%),
+        #0b0d16;
+    }
+
+    .left-panel::after {
+      content: "";
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      right: -200px;
+      bottom: -180px;
+      background: #542cff;
+      filter: blur(150px);
+      opacity: 0.4;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .brand img {
+      width: 65px;
+      height: 65px;
+      object-fit: cover;
+      object-position: center 25%;
+      border-radius: 14px;
+    }
+
+    .brand-name {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: 8px;
+    }
+
+    .tagline {
+      margin-top: 12px;
+      color: #8990a5;
+      letter-spacing: 5px;
+      font-size: 11px;
+    }
+
+    .left-content {
+      position: relative;
+      z-index: 2;
+      margin-top: 105px;
+    }
+
+    .left-content h1 {
+      font-size: clamp(38px, 4vw, 62px);
+      line-height: 1.08;
+      margin: 0;
+      font-weight: 800;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #27baff, #8970ff, #d04bff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .description {
+      margin-top: 28px;
+      max-width: 450px;
+      color: #9298ad;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .features {
+      margin-top: 45px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #e3e6f4;
+      font-size: 17px;
+    }
+
+    .feature-icon {
+      color: #6675ff;
+      font-size: 30px;
+      width: 35px;
+    }
+
+    .bottom-text {
+      position: absolute;
+      bottom: 38px;
+      left: 55px;
+      color: #727990;
+      font-size: 11px;
+      letter-spacing: 4px;
+      z-index: 2;
+    }
+
+    /* RIGHT SIDE */
+
+    .right-panel {
+      padding: 65px 85px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #090a0c;
+    }
+
+    .tabs {
+      display: flex;
+      align-self: flex-end;
+      border: 1px solid #24252c;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 100px;
+    }
+
+    .tab {
+      padding: 13px 25px;
+      border-radius: 8px;
+      color: #777c8d;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background: #397cf5;
+      color: white;
+      box-shadow: 0 0 20px #397cf560;
+    }
+
+    .right-panel h2 {
+      font-size: 38px;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      color: #858b9d;
+      margin-bottom: 35px;
+    }
+
+    .email-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #292c35;
+      border-radius: 14px;
+      padding: 8px 12px 8px 18px;
+      margin-bottom: 28px;
+    }
+
+    .email-box span {
+      color: #777d8d;
+      font-size: 23px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: white;
+      font-size: 15px;
+      padding: 15px;
+    }
+
+    input::placeholder {
+      color: #555b6b;
+    }
+
+    .arrow-button {
+      width: 45px;
+      height: 45px;
+      border: none;
+      border-radius: 50%;
+      background: #397cf5;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #397cf550;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: #737989;
+      margin: 20px 0 30px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      background: #292c35;
+      flex: 1;
+    }
+
+    .google-button {
+      width: 100%;
+      padding: 17px;
+      border: none;
+      border-radius: 13px;
+      background: white;
+      color: #171717;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .google-button span {
+      color: #4285f4;
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    .forgot {
+      text-align: center;
+      color: #858b9d;
+      margin-top: 35px;
+      cursor: pointer;
+    }
+
+    .terms {
+      text-align: center;
+      color: #777d8d;
+      font-size: 12px;
+      margin-top: 100px;
+      line-height: 1.7;
+    }
+
+    .terms a {
+      color: #a5aabd;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+      body {
+        padding: 12px;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel {
+        min-height: 500px;
+        padding: 35px;
+      }
+
+      .left-content {
+        margin-top: 65px;
+      }
+
+      .brand-name {
+        font-size: 27px;
+      }
+
+      .left-content h1 {
+        font-size: 40px;
+      }
+
+      .bottom-text {
+        left: 35px;
+      }
+
+      .right-panel {
+        padding: 40px 30px;
+      }
+
+      .tabs {
+        align-self: center;
+        margin-bottom: 55px;
+      }
+
+      .right-panel h2 {
+        font-size: 32px;
+      }
+
+      .terms {
+        margin-top: 65px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LEFT PANEL -->
+
+    <section class="left-panel">
+
+      <div class="brand">
+        <img src="parsec-logo.png" alt="Parsec Logo">
+
+        <div>
+          <div class="brand-name">PARSEC</div>
+          <div class="tagline">CREATE &nbsp; EDIT &nbsp; INSPIRE</div>
+        </div>
+      </div>
+
+      <div class="left-content">
+
+        <h1>
+          Turn Your Ideas<br>
+          Into <span class="gradient-text">Extraordinary</span>
+        </h1>
+
+        <p class="description">
+          Parsec is an AI-powered video editing platform
+          built for creators. Transform your ideas into
+          beautiful videos with powerful creative tools.
+        </p>
+
+        <div class="features">
+
+          <div class="feature">
+            <div class="feature-icon">ϟ</div>
+            <div>Create Faster</div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">◈</div>
+            <div>Edit Smarter</div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">♧</div>
+            <div>Inspire a Bigger Audience</div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="bottom-text">
+        JOIN A NEW ERA OF CREATIVITY
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT PANEL -->
+
+    <section class="right-panel">
+
+      <div class="tabs">
+        <div class="tab active">LOGIN</div>
+        <div class="tab">SIGN UP</div>
+      </div>
+
+      <h2>Welcome back.</h2>
+
+      <p class="subtitle">
+        Continue your creative journey with Parsec.
+      </p>
+
+      <form>
+
+        <div class="email-box">
+          <span>✉</span>
+
+          <input
+            type="email"
+            placeholder="creator@example.com"
+            required
+          >
+
+          <button class="arrow-button" type="submit">
+            →
+          </button>
+        </div>
+
+      </form>
+
+      <div class="divider">
+        or continue with
+      </div>
+
+      <button class="google-button">
+        <span>G</span>
+        Continue with Google
+      </button>
+
+      <div class="forgot">
+        Forgot password?
+      </div>
+
+      <div class="terms">
+        By continuing, you agree to our
+        <a href="#">Terms of Service</a>
+        and
+        <a href="#">Privacy Policy</a>.
+      </div>
+
+    </section>
+
+  </div>
+
+</body>
+</html>

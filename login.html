@@ -506,34 +506,144 @@
   </div>
 
   <script>
-    function showLogin() {
-      document.getElementById("loginForm").classList.remove("hidden");
-      document.getElementById("signupForm").classList.add("hidden");
+    // =========================
+    // PARSEC AUTHENTICATION
+    // =========================
 
-      document.getElementById("loginTab").classList.add("active");
-      document.getElementById("signupTab").classList.remove("active");
+    const SUPABASE_URL = "https://zvrquceoxtbdcxznxvic.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "YOUR_EXISTING_PUBLISHABLE_KEY";
+
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+    // =========================
+    // LOGIN / SIGNUP TABS
+    // =========================
+
+    function showLogin() {
+        document.getElementById("loginForm").classList.remove("hidden");
+        document.getElementById("signupForm").classList.add("hidden");
+
+        document.getElementById("loginTab").classList.add("active");
+        document.getElementById("signupTab").classList.remove("active");
     }
 
     function showSignup() {
-      document.getElementById("signupForm").classList.remove("hidden");
-      document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("signupForm").classList.remove("hidden");
+        document.getElementById("loginForm").classList.add("hidden");
 
-      document.getElementById("signupTab").classList.add("active");
-      document.getElementById("loginTab").classList.remove("active");
+        document.getElementById("signupTab").classList.add("active");
+        document.getElementById("loginTab").classList.remove("active");
     }
-  </script>
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-  const SUPABASE_URL = "https://zvrquceoxtbdcxznxvic.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gdIlMXbsWXM8Vzkj3EElKw_RAdDdjMS";
+    // =========================
+    // LOGIN
+    // =========================
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
+    document.querySelector("#loginForm form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const inputs = this.querySelectorAll("input");
+        const email = inputs[0].value.trim();
+        const password = inputs[1].value;
+
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            alert("Login failed: " + error.message);
+            return;
+        }
+
+        alert("Welcome back to Parsec! 🚀");
+
+        window.location.href = "index.html";
+    });
+
+
+    // =========================
+    // SIGN UP
+    // =========================
+
+    document.querySelector("#signupForm form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const inputs = this.querySelectorAll("input");
+
+        const name = inputs[0].value.trim();
+        const email = inputs[1].value.trim();
+        const password = inputs[2].value;
+
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name
+                }
+            }
+        });
+
+        if (error) {
+            alert("Sign up failed: " + error.message);
+            return;
+        }
+
+        alert(
+            "Account created successfully! 🎉\n\n" +
+            "Please check your email to confirm your account."
+        );
+
+        showLogin();
+    });
+
+
+    // =========================
+    // GOOGLE LOGIN
+    // =========================
+
+    const googleButtons = document.querySelectorAll(".google-btn");
+
+    googleButtons.forEach(function(button) {
+        button.addEventListener("click", async function() {
+
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                    redirectTo:
+                        window.location.origin +
+                        "/Parsec/login.html"
+                }
+            });
+
+            if (error) {
+                alert("Google login failed: " + error.message);
+            }
+        });
+    });
+
+
+    // =========================
+    // CHECK EXISTING SESSION
+    // =========================
+
+    async function checkSession() {
+
+        const { data } = await supabaseClient.auth.getSession();
+
+        if (data.session) {
+            console.log("Logged in as:", data.session.user.email);
+        }
+    }
+
+    checkSession();
 </script>
-</body>
 </html>
